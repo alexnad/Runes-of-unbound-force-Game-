@@ -1,5 +1,4 @@
-from Attributes import Attribute, TalentPoint, Experience, 
-                        CharacterAttributes, CharacterStats
+from Character import Character
 
 
 
@@ -7,7 +6,7 @@ from Attributes import Attribute, TalentPoint, Experience,
 
 class PlayerTalants:
     def __init__(self, primary):
-        self.primary = primary
+        self.primary = Character()
         self.boosted = primary
         self.talent_tree = None
         
