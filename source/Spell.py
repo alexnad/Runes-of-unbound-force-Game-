@@ -21,7 +21,7 @@ class FireBall:
         return self.cast_time - character.cast_speed
 
     def damage(self, character, target):
-        if(criticalstrike):
+        if criticalstrike:
             a = 2
         return self.damage + character.spell_damage
     
@@ -68,7 +68,6 @@ class StatPool:
     def __init__(self, stat):
         self. = stat
 
-BattleStance
 
 class CharaterCondition:
     def __init__(self, character):
@@ -80,8 +79,6 @@ class CharaterCondition:
         
     def add_effect(self, effect):
                 
-
-
     def take_spell(self, spell):
 
     def take_curse(self, curse):
@@ -92,17 +89,26 @@ class CharaterCondition:
 
 
 
-class DamageOverTime:
+class DamageOverTime():
     def __init__(self, damage, duration, interval = 1):
         self.damage = damage
         self.duration = duration
         self.interval = interval
 
-    def 
+    def effect(self, target):
+        for x in range(self.duration):
+            time.sleep(interval)
+            target.stat_pool(heakt)
 
 
-class Effect:
-    def __init__(self, name, type, *args):
+EFFECTS = {'DoT' : DamageOverTime}
+
+
+class Effect(threading.Thread):
+    def __init__(self, name, target, type, *args):
         self.name = name
-
-        
+        self.target = target
+        self.type = EFFECTS[type](*args)
+    
+    def run(self):
+        self.type.effect(self.target)
