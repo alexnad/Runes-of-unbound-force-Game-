@@ -98,7 +98,7 @@ class DamageOverTime():
     def effect(self, target):
         for x in range(self.duration):
             time.sleep(interval)
-            target.stat_pool(heakt)
+            target.stat_pool('health').decrease(self.damage)
 
 
 EFFECTS = {'DoT' : DamageOverTime}
