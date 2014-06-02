@@ -137,7 +137,6 @@ class ArmsTree:
         return talent in self.tree
 
     def use_point(self, talent, primary, boosted):
-        if 
         return self.tree[talent].add_point(primary, boosted)
         
     def reset(self, boosted):
