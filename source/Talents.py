@@ -26,15 +26,3 @@ class PlayerTalants:
             self.reset_talent_tree()
         talent_tree = tree
 
-    
-
-
-
-class Spell(threading.Thread):
-    def __init__(self, damage, target):
-       self.damage = damage
-       self.target = target
-       threading.Thread.__init__(self)
-    def run(self):
-       self.target -= self.damage
-       return self.target
