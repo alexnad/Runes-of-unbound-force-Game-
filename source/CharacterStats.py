@@ -1,9 +1,15 @@
 from Attributes import CharacterAttributes
 
+
+class AttributeBonus:
+    def __init__(self):
+        self.bonuses = {}
+
+
 class TalentPoint:
     def __init__(self):
-       self.free_points = 1
-       self.used_points = 0
+        self.free_points = 1
+        self.used_points = 0
 
     def use_point(self):
         if self.free_points > 0:
@@ -16,7 +22,7 @@ class TalentPoint:
     def release_points(self):
         if self.used_points > 0:
             self.free_oints += self.used_points
-            self.used_oints = 0 
+            self.used_oints = 0
 
     def add(self, level):
         if level > 2:
@@ -84,29 +90,31 @@ class CharacterStats:
 
     @property
     def max_health(self):
-        return self.attributes['Stamina'].value*3
+        return self.attributes['Stamina'].value*3 + self.bonus['health']
 
-    @property    
+    @property
     def max_mana(self):
-        return self.attributes['Intellect'].value*4
+        return self.attributes['Intellect'].value*4 + self.bonus['mana']
 
     @property
     def attack_damage(self):
-        return self.attributes['AttackPower'].value/3
+        return self.attributes['AttackPower'].value/3 + self.bonus['damage']
 
     @property
     def attack_speed(self):
-        return 2 - self.attributes['AttackSpeed'].value/160
+        return 2 - self.attributes['AttackSpeed'].value/160\
+            + self.bonus['attack_speed']
 
     @property
-    def cast_speed():
-        return self.attributes['CastSpeed'].value/200
+    def cast_speed(self):
+        return self.attributes['CastSpeed'].value/200\
+            + self.bonus['cast_speed']
 
     @property
     def spell_damage(self):
-        return (self.attributes['SpellPower'].value/3 
-                + self.attributes['Intellect'].value/6)
+        return self.attributes['SpellPower'].value/3\
+            + self.attributes['Intellect'].value/6 + self.bonus['spell_damage']
 
     @property
     def armor(self):
-        return self.attributes['Armor'].value
+        return self.attributes['Armor'].value + self.bonus['armor']

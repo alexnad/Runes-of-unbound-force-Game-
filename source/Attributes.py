@@ -1,3 +1,5 @@
+import pygame
+
 
 ATTRIBUTE_VALUES = {'Stamina': 70,'Intellect': 60,'AttackSpeed': 40,
                    'AttackPower': 120,'SpellPower': 120,
@@ -46,12 +48,7 @@ class CharacterAttributes:
         self.increase('SpellPower', level*8)
         self.increase('Armor', level*10)
 
-
-class InventoryObject:
-    def __init__(self, name):
-        name = 
-
-    def 
+ 
 
 class Inventory:
     def __init__(self):
@@ -61,6 +58,4 @@ class Inventory:
         if item.name in inventory:
             return inventory[item.name]
         return "Item not found"
-
-    def addItem(self, item):
 
