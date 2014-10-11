@@ -1,9 +1,13 @@
-import pygame
+ATTRIBUTE_VALUES = {
+    'Stamina': 70,
+    'Intellect': 60,
+    'AttackSpeed': 40,
+    'AttackPower': 120,
+    'SpellPower': 120,
+    'CastSpeed': 40,
+    'Armor': 150
+}
 
-
-ATTRIBUTE_VALUES = {'Stamina': 70,'Intellect': 60,'AttackSpeed': 40,
-                   'AttackPower': 120,'SpellPower': 120,
-                   'CastSpeed': 40, 'Armor': 150}
 
 class Attribute:
     def __init__(self):
@@ -21,14 +25,13 @@ class Attribute:
         return self.value
 
 
-
 class CharacterAttributes:
     def __init__(self):
         self.attributes = {key: type(key, (Attribute,), {})() for key
-                        in ATTRIBUTE_VALUES.keys()}
+                           in ATTRIBUTE_VALUES.keys()}
 
     def __getitem__(self, attr_name):
-        return attributes[attr_name]
+        return self.attributes[attr_name]
 
     def increase(self, name, amount):
         self.attributes[name].increase(amount)
@@ -47,15 +50,3 @@ class CharacterAttributes:
         self.increase('AttackPower', level*8)
         self.increase('SpellPower', level*8)
         self.increase('Armor', level*10)
-
- 
-
-class Inventory:
-    def __init__(self):
-        inventory = {}
-
-    def getItem(self, item):
-        if item.name in inventory:
-            return inventory[item.name]
-        return "Item not found"
-

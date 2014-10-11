@@ -5,6 +5,15 @@ class AttributeBonus:
     def __init__(self):
         self.bonuses = {}
 
+    def __getitem__(self, bonus_name):
+        return self.bonuses[bonus_name]
+
+    def increase(self, bonus_name, amount):
+        self.bonuses[bonus_name] += amount
+
+    def decrease(self, bonus_name, amount):
+        self.bonuses[bonus_name] -= amount
+
 
 class TalentPoint:
     def __init__(self):
