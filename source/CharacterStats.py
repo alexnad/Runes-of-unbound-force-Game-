@@ -3,71 +3,86 @@ from Attributes import CharacterAttributes
 
 class AttributeBonus:
     def __init__(self):
-        self.bonuses = {}
+        self._bonuses = {}
 
     def __getitem__(self, bonus_name):
-        return self.bonuses[bonus_name]
+        if bonus_name in self._bonuses:
+            return self._bonuses[bonus_name]
+        return 0
 
     def increase(self, bonus_name, amount):
-        self.bonuses[bonus_name] += amount
+        if amount < 0:
+            return False
+        if bonus_name in self._bonuses:
+            self._bonuses[bonus_name] += amount
+        else:
+            self._bonuses[bonus_name] = amount
+        return True
 
     def decrease(self, bonus_name, amount):
-        self.bonuses[bonus_name] -= amount
+        if amount < 0:
+            return False
+        if bonus_name in self._bonuses:
+            self._bonuses[bonus_name] -= amount
+        else:
+            self._bonuses[bonus_name] = -amount
+        return True
+
+    @property
+    def get_all_bonuses(self):
+        return self._bonuses
 
 
 class TalentPoint:
     def __init__(self):
-        self.free_points = 1
-        self.used_points = 0
+        self._free_points = 2
+        self._used_points = 0
 
     def use_point(self):
-        if self.free_points > 0:
-            self.free_points -= 1
-            self.used_points += 1
-            return "{0} free points left".format(self.free_points)
-        else:
-            return "No free points left"
+        if self._free_points > 0:
+            self._free_points -= 1
+            self._used_points += 1
+
+        return "{0} free points left".format(self._free_points)
 
     def release_points(self):
-        if self.used_points > 0:
-            self.free_oints += self.used_points
-            self.used_oints = 0
+        if self._used_points > 0:
+            self._free_points += self._used_points
+            self._used_points = 0
 
-    def add(self, level):
-        if level > 2:
-            self.free_points += 2
-        else:
-            self.free_points += 1
+    def add(self):
+            self._free_points += 2
 
 
 class Experience:
     def __init__(self):
-        self.level = 1
-        self.level_cap = 10
-        self.experience_cap = 100
-        self.experience = 0
-        self.excess = 0
+        self._level = 1
+        self._lvl_cap = 10
+        self._xp_cap = 100
+        self._xp = 0
+        self._excess = 0
 
     def add(self, amount):
-        self.experience += amount
-        if self.experience >= self.experience_cap:
-            self.excess = self.experience - self.experience_cap
-            self.level = self.increse_lvl()
 
-        self.excess = 0
-        return self.level
+        self._xp += amount
+        if self._xp >= self._xp_cap:
+            self._excess = self._xp - self._xp_cap
+            self._level = self.__increase_lvl()
 
-    def increase_lvl(self):
-        if self.level == self.level_cap:
-            return self.level
+        self._excess = 0
+        return self._level
 
-        self.level += 1
-        self.experience_cap = self.experience_cap*self.level
-        self.experience = 0
+    def __increase_lvl(self):
+        if self._level == self._lvl_cap:
+            return self._level
 
-        if self.excess > 0:
-            self.level = self.add_experience(self.excess)
-        return self.level
+        self._level += 1
+        self._xp_cap = self._xp_cap*self._level
+        self._xp = 0
+
+        if self._excess > 0:
+            self._level = self.add(self._excess)
+        return self._level
 
 
 class CharacterStats:
@@ -76,26 +91,35 @@ class CharacterStats:
         self.attributes = CharacterAttributes()
         self.experience = Experience()
         self.talent_points = TalentPoint()
+        self.bonus = AttributeBonus()
 
     def add_experience(self, amount):
+        if amount < 0:
+            return False
+
         level = self.experience.add(amount)
         if self.level < level:
-            self.increase_level()
+            self.__increase_level()
+        return True
 
-    def increase_level(self):
+    def __increase_level(self):
         self.level += 1
         self.attributes.increase_level(self.level)
-        self.talent_points.add(self.level)
+        self.talent_points.add()
         self.add_experience(0)
 
     def increase_attribute(self, attribute, amount):
-        self.attributes.increase(attribute, amount)
+        return self.attributes.increase(attribute, amount)
 
     def decrease_attribute(self, attribute, amount):
-        self.attributes.decrease(attribute, amount)
+        return self.attributes.decrease(attribute, amount)
 
-    def get_attribute_value(self, attribute):
-        return self.attributes.get_value(attribute)
+    def attr_value(self, attribute):
+        return self.attributes[attribute]
+
+    @property
+    def get_xp(self):
+        return (self.experience._xp, self.experience._xp_cap)
 
     @property
     def max_health(self):

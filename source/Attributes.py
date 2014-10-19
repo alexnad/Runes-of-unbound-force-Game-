@@ -12,37 +12,42 @@ ATTRIBUTE_VALUES = {
 class Attribute:
     def __init__(self):
         self.name = self.__class__.__name__
-        self.value = ATTRIBUTE_VALUES[self.__class__.__name__]
+        self.attr_value = ATTRIBUTE_VALUES[self.name]
 
     def increase(self, amount):
-        self.value += amount
+        if amount < 0:
+            return False
+        self.attr_value += amount
+        return True
 
     def decrease(self, amount):
-        self.value -= amount
+        if amount < 0:
+            return False
+        self.attr_value -= amount
+        return True
 
     @property
     def value(self):
-        return self.value
+        return self.attr_value
 
 
 class CharacterAttributes:
     def __init__(self):
         self.attributes = {key: type(key, (Attribute,), {})() for key
-                           in ATTRIBUTE_VALUES.keys()}
+                           in ATTRIBUTE_VALUES}
 
     def __getitem__(self, attr_name):
-        return self.attributes[attr_name]
+        if attr_name in self.attributes:
+            return self.attributes[attr_name].value
+        return 0
 
     def increase(self, name, amount):
-        self.attributes[name].increase(amount)
+        return self.attributes[name].increase(amount)
 
     def decrease(self, name, amount):
-        self.attributes[name].increase(amount)
+        return self.attributes[name].decrease(amount)
 
-    def value(self, name):
-        return self.attributes[name].value
-
-    def increase_per_level(self, level):
+    def increase_level(self, level):
         self.increase('Stamina', level*5)
         self.increase('Intellect', level*6)
         self.increase('AttackSpeed', level*2)

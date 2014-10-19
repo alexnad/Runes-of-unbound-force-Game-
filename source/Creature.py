@@ -5,7 +5,6 @@ class Creature:
         self.name = name
         self.attack = attack
         self.level = level
-    
+
     def damage(self):
-
-
+        pass

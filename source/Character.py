@@ -1,6 +1,5 @@
 from CharacterStats import CharacterStats
-from Attack import BasicAttack
-
+"""
 class BasicAttack:
     def __init__(self, stats):
         self.damage = stats.attack_damage
@@ -14,10 +13,16 @@ class BasicAttack:
             self.calculate_attack_data(stats, weapon)
             target.inflict(self.damage)
             time.sleep(attack_speed)
+"""
+
+
+class ActiveEffects:
+    def __init__(self):
+        pass
 
 
 class Character:
-    def __init__(self):
+    def __init__(self, name):
         self.stats = CharacterStats()
-        self.hit = BasicAttack(stats)
-        self.defense
+        self.active_effects = ActiveEffects
+        self.name = name
