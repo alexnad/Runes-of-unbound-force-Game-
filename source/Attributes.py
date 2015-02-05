@@ -32,6 +32,16 @@ class Attribute:
 
 
 class CharacterAttributes:
+    LEVEL_BONUSES = {
+        'Stamina': 5,
+        'Intellect': 6,
+        'AttackSpeed': 2,
+        'CastSpeed': 2,
+        'AttackPower': 8,
+        'SpellPower': 8,
+        'Armor': 10
+    }
+
     def __init__(self):
         self.attributes = {key: type(key, (Attribute,), {})() for key
                            in ATTRIBUTE_VALUES}
@@ -47,11 +57,10 @@ class CharacterAttributes:
     def decrease(self, name, amount):
         return self.attributes[name].decrease(amount)
 
+    def level_bonus(self, level, attribute):
+        return level * self.LEVEL_BONUSES[attribute]
+
     def increase_level(self, level):
-        self.increase('Stamina', level*5)
-        self.increase('Intellect', level*6)
-        self.increase('AttackSpeed', level*2)
-        self.increase('CastSpeed', level*2)
-        self.increase('AttackPower', level*8)
-        self.increase('SpellPower', level*8)
-        self.increase('Armor', level*10)
+        for attribute in self.attributes:
+            increase_amount = self.level_bonus(level, attribute)
+            self.increase(attribute, increase_amount)

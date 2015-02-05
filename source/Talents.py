@@ -2,9 +2,9 @@ from Character import Character
 
 
 class PlayerTalants:
-    def __init__(self, primary):
-        self.primary = Character()
-        self.boosted = primary
+    def __init__(self, primary=None):
+        self.primary = primary or Character()
+        self.boosted_stats = self.primary
         self.talent_tree = None
 
     def add_talent(self, talent):
